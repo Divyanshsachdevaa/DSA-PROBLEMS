@@ -1,0 +1,55 @@
+//TIME COMPLEXITY: O(log n)
+//SPACE COMPLEXITY: O(1)
+//STEP1: find pivot index where the array is rotated
+//STEP2: if target is greater than pivot then apply binary search to the right part of the array otherwise apply to left part.
+//STEP3: return index of target if found otherwise return -1;
+
+class Solution {
+private:
+    int pivot(vector<int>& nums, int n) {
+        int s = 0, e = n - 1;
+        int mid = s+(e-s)/2;
+        while (s < e) {
+            if (nums[mid] >= nums[0]) {
+                s = mid + 1;
+            } 
+            else {
+                e = mid;  // Update the 'e' instead of 'mid'
+            }
+            mid = s+(e-s)/2;
+        }
+        return s;
+    }
+
+    int binarysearch(vector<int>& nums,int n,int key, int start , int end){
+	int mid=start+(end-start)/2;
+	while(start<=end){
+		
+		if (key==nums[mid]){
+			return mid;
+		}
+		
+		else if (key>nums[mid]){
+			start=mid+1;
+		}
+		
+		else if (key<nums[mid]){
+			end=mid-1;
+		}
+		
+		mid =start+(end-start)/2;
+	}
+	return -1;
+}
+public:
+    int search(vector<int>& nums, int target) {
+        int n = nums.size();
+        int pivot_index = pivot(nums , n);
+        if(target >= nums[pivot_index] && target <= nums[n-1]){
+            return binarysearch(nums , n , target , pivot_index , n-1);
+        }
+        else{
+            return binarysearch(nums , n , target , 0 , pivot_index-1);
+        }
+    }
+};
