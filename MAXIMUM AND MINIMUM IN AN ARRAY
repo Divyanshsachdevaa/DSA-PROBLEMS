@@ -1,0 +1,22 @@
+//TIME COMPLEXITY: O(n)
+//SPACE COMPLEXITY: O(1)
+
+
+pair<long long, long long> getMinMax(long long a[], int n) {
+    long long mini = LLONG_MAX;
+    long long maxi = LLONG_MIN;
+    
+    for (int i = 0; i < n; i++) {
+        if (a[i] < mini) {
+            mini = a[i];
+        }
+    }
+    
+    for (int i = 0; i < n; i++) {
+        if (a[i] > maxi) {
+            maxi = a[i];
+        }
+    }
+
+    return std::make_pair(mini, maxi);
+}
