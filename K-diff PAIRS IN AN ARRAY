@@ -1,0 +1,41 @@
+//TIME COMPLEXITY: O(n);
+//SPACE COMPLEXITY: o(n);
+
+//INTUTION: WE NEED TO FIND UNIQUE PAIRS. SO IN ORDER TO MAKE OUR SOLUTION OPTIMIZE WE NEED A DATA STRUCTURE THAT STORES UNIQUE VALUES.
+            COMES IN MIND SET. BUT THE PROBLEM WITH SET IS WE'LL NOT BE ABLE TO HANDLE THE CASE WHERE K==0 BECAUSE WE NEED DUPLICATE VALUES FOR K==0.
+            THERE COMES THOUGHT OF MAP WHERE WE CAN STORE VALUES IN FORM OF KEY VALUE PAIRS.
+
+//STEP1: CREATE A MAP AND COPY ALL THE ELEMENTS OF ARRAY IN MAP
+//STEP2: HANDLE THE CASES K<0, K==0 AND K>0 SEPERATELY AND RETURN COUNT;
+
+
+class Solution {   
+public:
+    int findPairs(vector<int>& nums, int k) {
+
+        unordered_map<int,int> mp;
+        if(k<0){
+            return 0;
+        }
+
+        for(int i = 0; i<nums.size() ; i++){
+            mp[nums[i]]++;
+        }
+        int count1 = 0;
+        if(k==0){
+            for(auto i:mp){
+                if(i.second > 1){
+                    count1++;
+                }
+            }
+            return count1;
+        }
+        for(auto i:mp){
+            if(mp.count(i.first - k)){
+                count1++;
+            }
+        }
+
+        return count1;
+    }  
+};
