@@ -1,0 +1,68 @@
+//TIME COMPLEXITY: O(n logn)
+//SPACE COMPLEXITY: O(n)
+
+/*
+STEP1: divide the array into two parts by calculating mid 
+STEP2: By using recursion sort both the arrays
+STEP3: merge both arrays by creating a function that merges two sorted arrays  */
+
+class Solution {
+private:
+    void merge(vector<int>& nums , int s, int e){
+        int mid = s+(e-s)/2;
+
+        int len1 = mid-s+1;
+        int len2 = e-mid;
+
+        vector<int> vec1(len1);
+        vector<int> vec2(len2);
+        int k = s;
+        for(int i = 0 ; i<len1; i++){
+            vec1[i]=nums[k++];
+        }
+
+        k = mid+1;
+        for(int i = 0 ; i<len2; i++){
+            vec2[i]=nums[k++];
+        }
+
+        //merge
+        int index1 = 0;
+        int index2 = 0;
+        k = s;
+        while(index1<len1 && index2<len2){
+            if(vec1[index1] < vec2[index2] ){
+                nums[k++] = vec1[index1++];
+            }
+            else{
+                nums[k++] = vec2[index2++];
+            }
+        }
+
+        while(index1 < len1){
+            nums[k++] = vec1[index1++];
+        }
+
+        while(index2 < len2){
+            nums[k++] = vec2[index2++];
+        }
+    }
+    void mergesort(vector<int>& nums , int s, int e){
+        //base case
+        if(s >= e){
+            return;
+        }
+
+        int mid = s+(e-s)/2;
+        //recursive calls
+        mergesort(nums, s , mid);
+        mergesort(nums , mid+1 , e);
+
+        merge(nums, s, e);
+    }    
+public:
+    vector<int> sortArray(vector<int>& nums){
+        mergesort(nums, 0 , nums.size()-1);
+        return nums;
+    } 
+};
