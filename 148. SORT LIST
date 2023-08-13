@@ -1,0 +1,76 @@
+/*
+Time Complexity: O(n log n)
+Space Complexity: O(n)
+STEP1: Find mid of the list by slow fast algorithm and put mid -> next = NULL.
+STEP2: sort both lists by recursion
+STEP3: merge both sorted lists
+*/
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+private:
+    ListNode* findMid(ListNode* head){
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while(fast -> next != NULL && fast -> next -> next != NULL){
+            slow = slow -> next;
+            fast = fast -> next -> next;
+        }
+
+        return slow;
+    }
+    ListNode* mergeSortedList(ListNode* lefthalf,ListNode* righthalf){
+
+        if(lefthalf == NULL || righthalf == NULL){
+            return (lefthalf == NULL) ? righthalf : lefthalf;
+        }
+
+        ListNode* ans = new ListNode(0);
+        ListNode* curr = ans;
+
+        while(righthalf != NULL && lefthalf != NULL){
+            if(lefthalf -> val < righthalf -> val){
+                curr -> next = lefthalf;
+                lefthalf = lefthalf -> next;
+                curr = curr -> next;
+            }
+            else{
+                curr -> next = righthalf;
+                righthalf = righthalf -> next;
+                curr = curr -> next;
+            }
+        }
+
+        if(lefthalf != NULL || righthalf != NULL){
+            curr -> next = (righthalf != NULL) ? righthalf : lefthalf;
+        }
+
+        return ans-> next;
+    }    
+public:
+    ListNode* sortList(ListNode* head) {
+        //base case
+        if(head == NULL || head -> next == NULL){
+            return head;
+        }
+        ListNode* mid = findMid(head);
+        ListNode* newhead = mid -> next;
+        mid -> next = NULL;
+
+        //recursive calls
+        ListNode* lefthalf = sortList(head);
+        ListNode* righthalf = sortList(newhead);
+
+        return mergeSortedList(lefthalf , righthalf);
+    }
+};
