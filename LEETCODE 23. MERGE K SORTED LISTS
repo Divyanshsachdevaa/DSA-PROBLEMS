@@ -1,0 +1,97 @@
+
+
+/* Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+ class cmp{
+    public:
+    bool operator() (ListNode* a, ListNode* b){
+        if(a -> val > b -> val){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+ };
+class Solution {  
+private:
+    ListNode* mergeSortedList(ListNode* lefthalf,ListNode* righthalf){
+
+        if(lefthalf == NULL || righthalf == NULL){
+            return (lefthalf == NULL) ? righthalf : lefthalf;
+        }
+
+        ListNode* ans = new ListNode(0);
+        ListNode* curr = ans;
+
+        while(righthalf != NULL && lefthalf != NULL){
+            if(lefthalf -> val < righthalf -> val){
+                curr -> next = lefthalf;
+                lefthalf = lefthalf -> next;
+                curr = curr -> next;
+            }
+            else{
+                curr -> next = righthalf;
+                righthalf = righthalf -> next;
+                curr = curr -> next;
+            }
+        }
+
+        if(lefthalf != NULL || righthalf != NULL){
+            curr -> next = (righthalf != NULL) ? righthalf : lefthalf;
+        }
+
+        return ans-> next;
+    }    
+
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+       //APPROACH1:
+
+       /* int k = lists.size();
+        if (k == 0) return nullptr;
+        while (k > 1) {
+            int newK = (k + 1) / 2;
+            for (int i = 0; i < k/2; i++) { // Corrected loop condition
+                lists[i] = mergeSortedList(lists[i], lists[i + newK]);
+            }
+            k = newK;
+        }
+
+        return lists[0];
+        */
+
+        //APPROACH 2:
+       /* priority_queue<ListNode* , vector<ListNode*> , cmp> q;
+        ListNode* ans = new ListNode(0);
+        ListNode* curr = ans;
+        int k = lists.size();
+        for(int i = 0 ; i < k ; i++){
+            if(lists[i] != NULL){
+                if(lists[i] != NULL){
+                    q.push(lists[i]);
+                }
+            }
+        }
+
+        while(q.size()){
+            ListNode* temp = q.top();
+            curr -> next = temp;
+            curr = temp;
+            q.pop();
+            if(temp -> next != NULL){
+                q.push(temp -> next);
+            }
+        }
+
+        return ans -> next;*/
+    }
+};
