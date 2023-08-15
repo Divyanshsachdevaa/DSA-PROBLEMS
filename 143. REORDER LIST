@@ -1,0 +1,73 @@
+//TIME COMPLEXITY: O(n)
+//SPACE COMPLEXITY: O(1)
+
+//STEP1: FIND MID OF LINKED LIST AND REVERSE LIST FROM MID->NEXT. THEN MARK MID -> NEXT TO CREATE SEPERATE NODE
+//STEP2: CREATE A DUMMY NODE TO ADD VALUES TO IT TURN BY TURN 1st HEAD THEN RIGHT NODE AND THIS GOES ON UNTILL WE TRAVERSE BOTH LISTS
+//STEP3: RETURN DUMMY -> NEXT BECAUSE FROM THERE WE'VE STARTED STORING REAL VALUES THAT WE NEED IN OUR ANSWER.
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+private:
+    ListNode* findmid(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+        int count = 1;
+        while (fast->next != NULL && fast->next->next != NULL) {
+            fast = fast->next->next;
+            slow = slow->next;
+            count++;
+        }
+        return slow;
+}
+
+
+    ListNode* reverse(ListNode* head) {
+        ListNode* curr = head;
+        if (curr == NULL) {
+            return NULL;
+        }
+        ListNode* prev = NULL;
+        ListNode* forward = NULL;
+        while (curr != NULL) {
+            forward = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = forward;
+        }
+        return prev;
+    }    
+public:
+    ListNode* reorderList(ListNode* head) {
+        if (head == nullptr || head->next == nullptr) {
+            return head;
+        }
+
+        ListNode* mid = findmid(head);
+        ListNode* right = reverse(mid->next);
+        mid->next = nullptr;
+
+        ListNode* dummy = new ListNode(-1);
+        ListNode* curr = dummy;
+
+        while (head != nullptr && right != nullptr) {
+            curr->next = head;
+            curr = curr->next;
+            head = head->next;
+            curr->next = right;
+            curr = curr->next;
+            right = right->next;
+        }
+
+        curr->next = head;
+        return dummy->next;
+    }
+};
