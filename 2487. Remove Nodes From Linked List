@@ -1,0 +1,49 @@
+//TIME COMPLEXITY: O(n)
+//SPACE COMPLEXITY: O(1)
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+private:
+    ListNode* reverse1(ListNode* head){
+        //base case
+        if(head == NULL || head -> next == NULL){
+            return head;
+        }
+
+        ListNode* chotahead = reverse1(head -> next);
+        
+        head -> next -> next = head;
+        head -> next = NULL;
+
+        return chotahead;
+    }    
+public:
+    ListNode* removeNodes(ListNode* head) {
+        ListNode* newhead = reverse1(head);
+        ListNode* curr = newhead;
+        ListNode* prev = curr;
+        int maxi = curr -> val;
+        while(curr != NULL){
+            maxi = max(maxi,curr->val);
+            if(curr -> val < maxi){
+                prev -> next = prev -> next -> next;
+                curr = curr -> next;
+            }
+            else{
+                prev = curr;
+                curr = curr -> next;
+            }
+        }
+        return reverse1(newhead);
+
+    }    
+};
