@@ -1,0 +1,17 @@
+//TIME COMPLEXITY: O(n) 
+//SPACE COMPLEXITY: 0(n)
+
+class Solution {
+public:
+    void reverseString(vector<char>& s) {
+        stack<char> st;
+        for(int i = 0; i<s.size(); i++){
+            st.push(s[i]);
+        }
+        int k = 0;
+        while(!st.empty()){
+            s[k++] = st.top();
+            st.pop();
+        }
+    }
+};
