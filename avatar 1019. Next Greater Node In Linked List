@@ -1,0 +1,47 @@
+//TIME COMPLEXITY: O(n)
+//SPACE COMPLEXITY: 0(1)
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+private:
+    void reverseArray(vector<int> &arr) {
+        int n = arr.size();
+        int s = 0;
+        int e = n - 1;
+        while (s < e) {
+            swap(arr[s], arr[e]);
+            s++;
+            e--;
+        }
+    }
+
+public:
+    vector<int> nextLargerNodes(ListNode* head) {
+        ListNode* newhead = head;  // No need to reverse the list
+        ListNode* curr = head;
+        vector<int> arr;
+        while(curr != NULL){
+            ListNode* temp = newhead;
+            temp = curr -> next;
+            int greaterElement = 0;
+            while(temp != NULL){
+                if(temp -> val > curr -> val){
+                    greaterElement = temp -> val;
+                    break;
+                }
+                temp = temp -> next;
+            }
+            arr.push_back(greaterElement);
+            curr = curr -> next;
+        }
+        return arr;
+    }
+};
