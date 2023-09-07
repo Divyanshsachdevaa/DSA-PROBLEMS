@@ -1,0 +1,43 @@
+class Solution {
+public:
+    void makeAns(stack<string>& st , string& ans){
+        if(st.empty()){
+            return ;
+        }
+        string abspath = st.top();
+        st.pop();
+        makeAns(st,ans);
+        ans = ans + abspath;
+    }
+    string simplifyPath(string path) {
+        stack<string> st;
+        int i = 0;
+        while(i < path.size()){
+            int start = i;
+            int end = i+1;
+            while( end < path.size() && path[end] != '/'){
+                end++;
+            }
+            i = end;
+            string fileName = path.substr(start , end - start);
+            if(fileName == "/" || fileName == "/."){
+                continue;
+            }
+            if(fileName == "/.."){
+                if(!st.empty()){
+                    st.pop();
+                }
+                else{
+                    continue;
+                }
+            }
+            else{
+                st.push(fileName);
+            }
+        }
+
+        string ans = st.empty() ? "/" : "";
+        makeAns(st,ans);
+        return ans;
+    }
+};
