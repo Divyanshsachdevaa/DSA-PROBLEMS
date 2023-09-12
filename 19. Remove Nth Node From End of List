@@ -1,0 +1,61 @@
+//TIME COMPLEXITY: O(n)
+//SPACE COMPLEXITY: O(1)
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+    int findLength(ListNode* head){
+        ListNode* temp = head;
+        int count = 0;
+        while(temp != NULL){
+            count++;
+            temp = temp -> next;
+        }
+        return count;
+    }
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        int length = findLength(head);
+        if(length == 1 && n==1){
+            return NULL;
+        }
+        else if(length == n){
+            ListNode* curr = head -> next;
+            return curr;
+        }
+        int x = length - n;
+        cout<<"length: "<<length<<endl<<"x: "<<x<<endl;
+        if(x >= 1){
+            ListNode* curr = head;
+            int count = 0;
+            while(count+1 != x){
+                curr = curr -> next;
+                count++;
+            }
+            ListNode* mux = curr -> next ;
+            curr -> next = mux -> next;
+            delete(mux);
+            return head;
+        }
+        else if(length == 2 && n == 1){
+            head -> next = NULL;
+            return head;
+        }
+        else if(length == 2 && n==2){
+            ListNode* curr = head -> next;
+            head -> next = NULL;
+            return curr;
+        }
+        else{
+            return NULL;
+        }
+    }
+};
