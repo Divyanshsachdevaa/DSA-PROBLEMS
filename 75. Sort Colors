@@ -1,0 +1,27 @@
+//TIME COMPLEXITY: O(n)
+//SPACE COMPLEXITY: O(1)
+
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+//INTUTION: 0 ko left side kro 2 ko right side kro 1 ko bich m rhne do
+        int i = 0;
+        int j = nums.size() - 1;
+        int index = 0;
+        while(index <= j){
+            if(nums[index] == 0){
+                swap(nums[index] , nums[i]);
+                i++;
+                index++;
+            }
+            else if(nums[index] == 2){
+                swap(nums[index] , nums[j]);
+                //YAHA CATCH HAI YAHA M GALTI KARUNGA
+                j--;
+            }
+            else{
+                index++;
+            }
+        }
+    }
+};
