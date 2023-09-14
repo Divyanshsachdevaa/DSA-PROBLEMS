@@ -1,0 +1,33 @@
+//TIME COMPLEXITY: O(n)
+//SPACE COMPLEXITY: O(1)
+
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        vector<int> ans(nums.size());
+        int i = 0;
+        int n = nums.size();
+        while(i < n ){
+            int x = (i+k) % n;
+            ans[x] = nums[i];
+            i++;
+        }
+        nums = ans;
+    }
+};
+
+//BRUTEFULL SOLUTION NOT ACCEPTABLE
+T.C = O(n^2)
+/*
+int count = 0;
+int n = nums.size() - 1;
+while(count != k){
+    int last = nums[n];
+    for(int i = nums.size() - 1; i>0; i--){
+        nums[i] = nums[i-1];
+    }
+    nums[0] = last;
+    count++;
+    cout<<endl;
+}
+*/        
