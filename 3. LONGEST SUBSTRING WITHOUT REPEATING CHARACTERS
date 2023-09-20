@@ -1,0 +1,27 @@
+//TIME COMPLEXITY = SPACE COMPLEXITY = O(n)
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int i = 0;
+        int j = 0;
+        set<char> temp;
+        int maxcount = 0;
+        while(i < s.length()){
+            char c = s[i];
+            if(temp.insert(c).second){
+                maxcount = max(maxcount, i-j+1);
+                i++;
+            }
+            else{
+                while(s[j] != c){
+                    temp.erase(s[j]);
+                    j++;
+                }
+                temp.erase(c);
+                j++;
+            }
+        }
+        return maxcount;
+    }
+};
