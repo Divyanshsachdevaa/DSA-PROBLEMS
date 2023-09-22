@@ -1,0 +1,71 @@
+class Solution {
+private:
+bool ispalindromic(string s, int i, int j){
+    int start = i;
+    int end = j;
+    bool ans= true;
+    while(start <= end){
+        if(s[start] == s[end]){
+            start++;
+            end--;
+        }
+        else{
+            ans = false;
+            break;
+        }
+    }
+    return ans;
+}    
+public:
+    string longestPalindrome(string s) {
+/////////////////////// APPROACH 1   ////////////////////////////        
+        /*int maxlength=0;
+        string res = "";
+        for(int i = 0; i<s.length(); i++){
+            for(int j = s.length() - 1; j>=i; j--){
+                if(s[i] == s[j]){
+                    int length = j-i+1;
+                    if(ispalindromic(s, i, j) && length > maxlength){
+                        maxlength = length;
+                        res = s.substr(i, length);
+                    }
+                }
+            }
+        }
+        return res;*/
+
+/////////////////////// APPROACH 2   ////////////////////////////        
+        int maxlength = 1; 
+        string res = s.substr(0, 1);
+        for (int i = 1; i < s.length(); i++) {
+            int l = i;
+            int r = i - 1; 
+
+            while (r >= 0 && l < s.length() && s[l] == s[r]) {
+                int length = l - r + 1;
+                if (length > maxlength) {
+                    maxlength = length;
+                    res = s.substr(r, length);
+                }
+                l++;
+                r--;
+            }
+
+            l = i + 1;
+            r = i - 1;
+
+            while (r >= 0 && l < s.length() && s[l] == s[r]) {
+                int length = l - r + 1;
+                if (length > maxlength) {
+                    maxlength = length;
+                    res = s.substr(r, length); 
+                }
+                l++;
+                r--;
+            }
+        }
+
+        return res;
+
+    }
+};
