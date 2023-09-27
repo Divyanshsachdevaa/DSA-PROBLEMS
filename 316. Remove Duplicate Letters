@@ -1,0 +1,45 @@
+//time complexity = O(n)
+// space complexity = O(1) 
+
+class Solution {
+private:
+    void reverse(string& ans){
+        int s = 0;
+        int e = ans.size() - 1;
+        while(s < e){
+            swap(ans[s], ans[e]);
+            s++;
+            e--;
+        }
+    }
+public:
+    string removeDuplicateLetters(string s) {
+        map<char,int> mp;
+        stack<char> st;
+        string ans = "";
+        vector<bool> visited(26,false);
+        for(int i = 0; i<s.size(); i++){
+            mp[s[i]]++;
+        }
+        for(int i = 0; i<s.size(); i++){
+            mp[s[i]]--;
+            if(visited[s[i] - 'a'] == false){
+
+                while(!st.empty() && st.top() > s[i] && mp[st.top()] > 0){
+                visited[st.top() - 'a'] = false;
+                st.pop();
+                }
+                
+                st.push(s[i]);
+                visited[s[i] - 'a'] = true;
+            }
+        }
+
+        while(!st.empty()){
+            ans += st.top();
+            st.pop();
+        }
+        reverse(ans);
+        return ans;
+    }
+};
