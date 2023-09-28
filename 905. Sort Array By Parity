@@ -1,0 +1,60 @@
+// TIME COMPLEXIITY = O(n)
+// SPACE COMPLEXITY = O(1)
+
+class Solution {
+private:
+    bool isEven(int a){
+        if(a % 2 == 0 ){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }  
+
+    bool isOdd(int a){
+        if(a % 2 != 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }  
+public:
+    vector<int> sortArrayByParity(vector<int>& nums) {
+//////////////////// APPROACH 1 /////////////////////////////        
+        /*
+        int i = 0;
+        int j = nums.size() - 1;
+        while( i <= j){
+            if (isEven(nums[i]) && isOdd(nums[j])){
+                //cout<<"yes"<<" ";
+                i++;
+                j--;
+            }
+            else if(isOdd(nums[i]) && isEven(nums[j])){
+                swap(nums[i], nums[j]);
+                i++;
+                j--;
+            }
+            else if(isOdd(nums[i]) && isOdd(nums[j])){
+                j--;
+            }
+            else if(isEven(nums[i]) && isEven(nums[j])){
+                i++;
+            }
+        }
+        return nums;
+        */
+
+//////////////////////// APPROACH 2 ////////////////////////
+        int evenIndex = 0;
+        for(int i = 0; i<nums.size(); i++){
+            if(nums[i] % 2 == 0){
+                swap(nums[i], nums[evenIndex]);
+                evenIndex++;
+            }
+        }
+        return nums;
+    }
+};
