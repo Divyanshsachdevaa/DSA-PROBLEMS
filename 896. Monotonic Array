@@ -1,0 +1,56 @@
+//LEETCODE DAILY CODING CHALLENGE 29/09/2023
+
+class Solution {
+private:
+    bool isIncreasing(vector<int>& nums){
+        int i = 0;
+        int j = i+1;
+        while(j<nums.size()){
+            if(nums[j] < nums[i]){
+                return false;
+                break;
+            }
+            i++;
+            j++;
+        }
+        return true;
+    }  
+
+
+    bool isDecreasing(vector<int>& nums){
+        int i = nums.size() - 1;
+        int j = i-1;
+        while(j>=0){
+            if(nums[j] < nums[i]){
+                return false;
+                break;
+            }
+            j--;
+            i--;
+        }
+        return true;
+    } 
+public:
+    bool isMonotonic(vector<int>& nums) {
+        /*if(isIncreasing(nums) || isDecreasing(nums)){
+            return true;
+        }
+        else{
+            return false;
+        }*/
+        
+////////////////////// APPROACH 2 ///////////////////////////    
+
+        bool isDecreasing = true;
+        bool isIncreasing = true;
+        for(int i = 1; i<nums.size(); i++){
+            if(nums[i] > nums[i-1]){
+                isDecreasing = false;
+            }
+            else if(nums[i] < nums[i-1]){
+                isIncreasing = false;
+            }
+        }
+        return isDecreasing || isIncreasing;
+    }
+};
