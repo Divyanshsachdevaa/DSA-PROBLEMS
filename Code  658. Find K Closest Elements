@@ -1,0 +1,45 @@
+//Time Complexity: O(log N + k)
+//Space Complexity: O(k) 
+
+class Solution {
+private:
+    int closestElement(vector<int>& arr, int& x){
+        int s = 0;
+        int e = arr.size() - 1;
+        int mid = s + (e-s)/2;
+        int temp = 0;
+        while( s <= e ){
+            if(arr[mid] == x){
+                return mid;
+            }
+            else if(arr[mid] > x){
+                e = mid - 1;
+            }
+            else if(arr[mid] < x){
+                s = mid + 1;
+            }
+            mid = s + (e-s)/2;
+        }
+        return s;
+    }
+public:
+    vector<int> findClosestElements(vector<int>& arr, int k, int x) {
+        int high = closestElement(arr, x);
+        int low = high - 1;
+        while(k--){
+            if(low < 0){
+                high++;
+            }
+            else if(high >= arr.size()){ 
+                low--;
+            }
+            else if(abs(arr[low] - x) > abs(arr[high] - x)){
+                high++;
+            }
+            else{
+                low--;
+            }
+        }
+        return vector<int>(arr.begin() + low + 1 , arr.begin() + high);
+    }
+};
