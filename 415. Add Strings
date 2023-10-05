@@ -1,0 +1,33 @@
+// TIME COMPLEXITY: O(N)
+// SPACE COMPLEXITY: O(1)
+
+class Solution {
+private:
+    void Add(string& num1,int p1, string& num2,int p2, string& res,   int carry = 0)
+    {   
+        //base case
+        if(p1 < 0 && p2 < 0){
+            if(carry != 0){
+                res.push_back(carry + '0');
+            }
+            return ;
+        }
+
+        int x = (p1>=0 ? num1[p1] : '0') - '0' ;
+        int y = (p2>=0 ? num2[p2] : '0') - '0' ;
+        int sum = x + y + carry;
+        carry = sum / 10;
+        int digit = sum % 10;
+        res.push_back(digit+'0');
+        
+        Add(num1, p1 - 1, num2 , p2 - 1 , res, carry);
+    }
+        
+public:
+    string addStrings(string num1, string num2) {
+        string res="";
+        Add(num1, num1.size() - 1, num2, num2.size() - 1, res);
+        reverse(res.begin(), res.end());
+        return res;
+    }
+};
