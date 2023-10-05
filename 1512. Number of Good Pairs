@@ -1,0 +1,26 @@
+//TIME & SPACE COMPLEXITY OF APPROACH 1: O(N^2) & O(1)
+//TIME & SPACE COMPLEXITY OF APPROACH 1: O(N) & O(N)
+class Solution {
+public:
+    int numIdenticalPairs(vector<int>& nums) {
+
+////////////// APPROACH 1 /////////////////////        
+        /*int count = 0;
+        for(int i = 0; i<nums.size(); i++){
+            for(int j = nums.size() - 1; j>i; j--){
+                if(nums[i] == nums[j]){
+                    count++;
+                }
+            }
+        }
+        return count;*/
+///////////// APPROACH 2 ///////////////////////   
+        map<int,int> mp;
+        int count = 0;  
+        for(int i = 0; i<nums.size(); i++){
+            count += mp[nums[i]];
+            mp[nums[i]]++;
+        }  
+        return count; 
+    }
+};
