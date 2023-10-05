@@ -1,0 +1,26 @@
+class Solution {
+private:
+    void findMaxProfit(vector<int>& prices,int curr, int& minprice, int& maxprofit){
+        //base case
+        if(curr == prices.size()){
+            return ;
+        }
+
+        //algorithm
+        if(prices[curr] < minprice){
+            minprice = min(prices[curr], minprice);
+        }
+        if(prices[curr] - minprice > maxprofit){
+            maxprofit = max(prices[curr] - minprice, maxprofit);
+        }
+
+        //recursive call
+        findMaxProfit(prices, curr + 1, minprice, maxprofit);
+    }
+public:
+    int maxProfit(vector<int>& prices) {
+        int minprice = INT_MAX, maxprofit = 0;
+        findMaxProfit(prices, 0, minprice, maxprofit);
+        return maxprofit;
+    }
+};
