@@ -1,0 +1,21 @@
+//TIME COMPLEXITY= O(N^2)
+//SPACE COMPLEXITY= O(N)
+
+class Solution {
+private:
+    void Remove(string& s, string& part){
+        int found = s.find(part);
+        //base case
+        if(found == -1){
+            return ;
+        }
+
+        s.erase(found, part.size());
+        Remove(s,part);
+    }    
+public:
+    string removeOccurrences(string s, string part) {
+        Remove(s,part);
+        return s;
+    }
+};
