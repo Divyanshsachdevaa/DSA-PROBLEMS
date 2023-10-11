@@ -1,0 +1,30 @@
+//TIME COMPLEXITY (APP 1) = O(n^2);
+//TIME COMPLEXITY (APP 2) = O(n * log n)
+
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+
+////////////////////// APPROACH 1 ///////////////////////        
+        /*
+        if(s.size() != t.size()){
+            return false;
+        }
+        for(int i = 0; i<t.size(); i++){
+            size_t found = s.find(t[i]);
+            if(found != string::npos){
+                s[found] ='0';
+            }
+            else{
+                return false;
+            }
+        }
+        return true; 
+        */
+
+////////////////////// APPROACH 2 ///////////////////////
+        sort(s.begin(),s.end());
+        sort(t.begin(), t.end());
+        return s==t;
+    }
+};
