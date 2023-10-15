@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        if(x < 0){
+            return false;
+        }
+        long reversed = 0;
+        int y = x;
+        while(y != 0){
+            int digit = y % 10;
+            reversed = reversed * 10 + digit;
+            y = y / 10;
+        }
+
+        if(reversed == x){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+};
