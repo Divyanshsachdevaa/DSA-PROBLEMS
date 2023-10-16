@@ -1,0 +1,32 @@
+/*
+INTUTION: lets build this array at each iteration
+so when we will reach the input value we will return
+ i.e rowIndex we will return the array till that iteration.
+Time Complexity: O(n^2)
+Space Complexity: O(n)
+*/
+
+class Solution {
+public:
+    vector<int> getRow(int rowIndex) {
+        vector<int> vt;
+        for(int i = 0; i<=rowIndex; i++){
+            if(i == 0){
+                vt.push_back(1);
+            }
+            else if(i==1){
+                vt.push_back(1);
+            }
+            else{
+                vector<int> temp;
+                temp.push_back(1);
+                for(int j = 1; j<vt.size(); j++){
+                    temp.push_back(vt[j] + vt[j-1]);
+                }
+                temp.push_back(1);
+                vt = temp;
+            }
+        }
+        return vt;
+    }
+};
