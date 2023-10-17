@@ -1,0 +1,56 @@
+/*
+# Intuition
+APPROACH 1: How do we compare two strings ? if the order of characters in both of them are same.right?
+so we are sorting every string we are traversing in strs vector and storing it in a map.
+so whenever we will find a sorted string same as earlier it will automatically be added in
+vector of that string (value vector in map).
+Then we will iterate the map and return all the value vectors.
+
+APPROCH 2: In this approach we want to reduce the time complexity. so lets not sort.
+instead lets create a hash map in which we store no. of times a particular character is occuring in a string.
+and further in the strs vector we compare the hash maps of the each string.
+If we find any string with same hash map then we push that string in value vector of Original map.
+Then we will iterate the map and return all the value vectors.
+*/
+
+//Time complexity:O(N K LOG K) & O(N K)
+//Space complexity: O(N K)
+
+
+class Solution {
+private: 
+    std::array<int,256> hash(string s){
+        std::array<int,256> hash = {0};
+        for(auto it: s){
+            hash[it]++;
+        }
+        return hash;
+    }    
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+/////////////////// APPROACH 1 ///////////////////////////////
+        /*
+        vector<vector<string>> ans;
+        map<string, vector<string>> mp;
+        for(auto str: strs){
+            string k = str;
+            sort(k.begin(), k.end());
+            mp[k].push_back(str);
+        }
+        for(auto &keyValue : mp){
+            ans.push_back(keyValue.second);
+        }
+        return ans;
+        */
+///////////////////// APPROACH 2 ////////////////////////////        
+        vector<vector<string>> ans;
+        map<std::array<int, 256>, vector<string>> mp;
+        for(auto str: strs){
+            mp[hash(str)].push_back(str);
+        }
+        for(auto &keyValue : mp){
+            ans.push_back(keyValue.second);
+        }
+        return ans;
+    }
+};
