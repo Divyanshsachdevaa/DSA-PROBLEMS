@@ -1,0 +1,42 @@
+/*
+4 cases are possible 1st p in left q in right 2nd p in right q in left 3rd both in left 4th both in right.
+In case1 and 2 return current node and case3 and 4 recurssion wil handle.
+*/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* &root, TreeNode* p, TreeNode* q) {
+        if(root == NULL){
+            return NULL;
+        }
+
+        // if p lies in right and q lies in left
+        if( p -> val > root -> val && q -> val < root -> val){
+            return root;
+        }
+        // if p lies in left and q lies in right
+        if( p -> val < root -> val && q -> val > root -> val){
+            return root;
+        }
+        // if both p and q lies in right
+        if(p -> val > root -> val && q -> val > root -> val){
+            return lowestCommonAncestor(root -> right, p, q);
+        }
+        // if both p and q lies in left
+        if( p -> val < root -> val && q -> val < root -> val){
+            return lowestCommonAncestor(root -> left, p, q);
+        }
+        
+        return root;
+    }
+};
