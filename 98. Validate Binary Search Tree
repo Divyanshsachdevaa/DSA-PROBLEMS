@@ -1,0 +1,41 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+
+// By checking for less than and greater than conditions soltuion would get complicated so instead i used range method if root -> val lies in range then return true else false. 
+
+class Solution {
+public:
+    bool solve(TreeNode* &root, long long int &lowerBound, long long int &upperBound){
+        if(root == NULL){
+            return true;
+        }
+        long long int curr = root -> val;
+        bool cond1 = curr > lowerBound;
+        bool cond2 = curr < upperBound;
+        bool cond3 = solve(root -> left, lowerBound, curr);
+        bool cond4 = solve(root -> right, curr, upperBound);
+        if(cond1 && cond2 && cond3 && cond4){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    bool isValidBST(TreeNode* root) {
+        if(root == NULL){
+            return true;
+        }
+        long long int lowerBound = -2147483657 ;
+        long long int upperBound = 2147483657;
+        return solve(root, lowerBound, upperBound);
+    }
+};
