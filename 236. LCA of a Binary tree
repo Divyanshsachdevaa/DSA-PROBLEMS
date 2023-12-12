@@ -1,0 +1,44 @@
+/*
+same as ques. 235. four cases are possible but here we dont know where p and q are so we have to traverse
+the whole tree to find p and q by inorder. If leftside gives finds p then return left otherwise right.
+if any of them isn't able to find then return null and if both found p&q then return that particular root. 
+*/
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(root == NULL){
+            return NULL;
+        }
+        if(root -> val == p -> val){
+            return root;
+        }
+        if(root -> val == q -> val){
+            return root;
+        }
+
+        TreeNode* leftSide = lowestCommonAncestor(root -> left, p, q);
+        TreeNode* rightSide = lowestCommonAncestor(root -> right, p, q);
+        if(leftSide == NULL && rightSide == NULL){
+            return NULL;
+        }
+        else if(leftSide == NULL && rightSide != NULL){
+            return rightSide;
+        }
+        else if(leftSide != NULL && rightSide == NULL){
+            return leftSide;
+        }
+        else{
+            return root;
+        }
+    }
+};
