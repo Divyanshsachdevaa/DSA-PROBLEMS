@@ -1,7 +1,7 @@
 /*
 same as ques. 235. four cases are possible but here we dont know where p and q are so we have to traverse
 the whole tree to find p and q by inorder. If leftside gives finds p then return left otherwise right.
-if any of them isn't able to find then return null and if both found p&q then return that particular root. 
+if any of them isn't able to find then return null and if both found p&q then return that particular root.  
 */
 
 /**
