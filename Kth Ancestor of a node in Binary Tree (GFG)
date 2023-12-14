@@ -1,0 +1,63 @@
+
+//User function Template for C++
+/*
+Structure of the node of the binary tree is as
+struct Node
+{
+	int data;
+	struct Node *left, *right;
+};
+*/
+// your task is to complete this function
+
+Node* solve(Node* &root, int &k, int node, int &ans){
+    if(root == NULL){
+        return NULL;
+    }
+  
+    if(root -> data == node){
+        return root;
+    }
+    
+    Node* left = solve(root -> left, k, node, ans);
+    Node* right = solve(root -> right, k, node, ans);
+    
+    if(left == NULL && right == NULL){
+        return NULL;
+    }
+    
+    // agr dono m se koi ek bhi not null h mtlb is route m hame hmari node mil gyi hai
+    k--;
+    if(k == 0){
+        // k == 0 hogya mtlb yahi node answer h to iska data ans m store krwalo
+        ans = root -> data;
+    }
+    
+    // ab jo bhi node not null h mtlb vaha hmari target node h to use return krwado
+    // taki aage bhi not null jae and hmara k decreament hota rhe
+    if(left != NULL && right == NULL){
+        return left;
+    }
+    else if(left == NULL && right != NULL){
+        return right;
+    }
+    else {
+        return root;
+    }
+    
+}
+
+int kthAncestor(Node *root, int k, int node)
+{
+    int ans = -1;
+    Node* result = solve(root, k, node, ans);
+    return ans;
+}   
+
+/*
+    M jo glti kr rha tha vo left ya right node upar kese ponchau usme tha jabki simply ye
+    approach follow kro ki node pe reach krte hi check krlo ki ye targetNode h then return
+    this root agr nhi then return NULL. ab left right ki call marne k baad check krlo leftright agr NULL h
+    dono mtlb nahi mili node hame return NULL agr koi bhi not null h mtlb node milgyi. k-- and check it agr k==0 hogya to
+    ans m store krwalo us particular node ka data and is ans(int) ko return krwado main function m.
+*/
