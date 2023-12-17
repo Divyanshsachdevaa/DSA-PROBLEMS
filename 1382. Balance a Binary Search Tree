@@ -1,0 +1,33 @@
+/*
+BST means sorted and sorted means inorder so i made an sorted array form given BST.
+and tried to balance it by making mid of array root everytime and divide it in left and right.
+Further algorithm divides left array into BST and right also. 
+*/
+class Solution {
+public:
+    void inorder(TreeNode* &root, vector<int> &vt){
+        if(root == NULL){
+            return ;
+        }
+        inorder(root->left, vt);
+        vt.push_back(root -> val);
+        inorder(root -> right, vt);
+    }
+    TreeNode* buildTree(vector<int> vt, int s, int e){
+        if(s > e){
+            return NULL;
+        }
+
+        int mid = ( e + s ) / 2;
+        TreeNode* newRoot = new TreeNode(vt[mid]);
+        newRoot -> left = buildTree( vt, s, mid - 1);
+        newRoot -> right = buildTree( vt, mid+1, e);
+        return newRoot;
+    }
+
+    TreeNode* balanceBST(TreeNode* root) {
+        vector<int> vt;
+        inorder(root, vt);
+        return buildTree(vt, 0, vt.size()-1);
+    }
+};
