@@ -1,0 +1,37 @@
+/*
+
+**This question was asked in ADOBE interviews.**
+
+*M1) Arrange by simple preorder method(N L R) 
+				Time complexity = O(n^2)
+
+*M2) Find inorder by sorting preorder. You'll get two arrays pre and inorder. Make BST using them. 
+				Time complexity = O(n log n) + O(n)
+*
+M3) Use range method to avoid traversing of tree from root node everytime. Update range at every step and check whether given element falls in given range or not. If falls then place it otherwise place NULL in that position. 
+			Time complexity = O(n)*
+*/
+
+
+class Solution {
+public:
+    TreeNode* solve(vector<int>& preorder, int lowerBound, int upperBound, int &index){
+        if(index >= preorder.size()){
+            return NULL;
+        }
+        
+        TreeNode* root = NULL;
+        if(preorder[index] < upperBound && preorder[index] > lowerBound){
+            root = new TreeNode(preorder[index++]);
+            root -> left = solve(preorder, lowerBound, root -> val, index);
+            root -> right = solve(preorder, root -> val, upperBound, index);
+        }
+        return root;
+    }
+
+    TreeNode* bstFromPreorder(vector<int>& preorder) {
+        int min = INT_MIN, max = INT_MAX;
+        int index = 0;
+        return solve(preorder, min, max, index);
+    }
+};
