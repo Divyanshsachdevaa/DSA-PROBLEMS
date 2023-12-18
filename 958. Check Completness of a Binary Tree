@@ -1,0 +1,34 @@
+/*
+Intution: If any null node comes before a non-NUll node
+means tree is not complete so we can use level order traversal for this
+*/
+
+
+class Solution {
+public:
+    bool levelOrder(TreeNode* &root){
+        queue<TreeNode*> q;
+        q.push(root);
+        // ek flag lelo 
+        bool nullFound = false;
+        while(!q.empty()){
+            TreeNode* temp = q.front();
+            q.pop();
+            if(temp == NULL){
+                nullFound = true;
+            }
+            else{
+                if(nullFound == true){
+                    return false;
+                }
+                q.push(temp -> left);
+                q.push(temp -> right);
+            }
+        }
+        return true;
+    }
+
+    bool isCompleteTree(TreeNode* root) {
+        return levelOrder(root);
+    }
+};
