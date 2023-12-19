@@ -1,0 +1,30 @@
+/*
+sorted meand inorder but instead of LRN we will use RNL as at the end of RNL we will get head of the 
+list at smallest element. Just call recurssion and you connect root->right with head head left with root and update head to root.
+*/
+
+
+void solve(TreeNode<int>* root, TreeNode<int>* &head){
+    if(root == NULL){
+        return ;
+    }
+    
+    // RNL
+
+    solve(root -> right, head);
+
+    root -> right = head;
+    if(head != NULL){
+        head -> left = root;
+    }
+    head = root;
+
+    solve(root -> left, head);
+
+}
+
+TreeNode<int>* bstToSortedDLL(TreeNode<int>* root) {
+    TreeNode<int>* head = NULL;
+    solve(root, head);
+    return head;
+}

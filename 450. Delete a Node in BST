@@ -1,0 +1,55 @@
+/*
+i have two approaches for this problem. rest all cases are same except when there are two child of a node.
+1st) method is by finding max of left or min of right and replcace with current root and delete root.
+2nd) method is told by lakshay bhaiya in which we we put left of root to left of rightmin, update root to root->right and delete root.
+*/
+
+class Solution {
+public:
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if(root == NULL){
+            return root;
+        }
+        if(key > root -> val){ 
+            root -> right = deleteNode(root -> right, key);
+
+        }
+        else if (key < root -> val){
+            root -> left = deleteNode(root -> left, key);
+
+        }  
+        else if(key == root -> val){
+            // 0 child case
+            if(root -> left == NULL && root -> right == NULL){
+                delete root;
+                return NULL;
+            }
+            
+            // 1 child case
+            else if(root -> left == NULL){
+                TreeNode* temp = root -> right;
+                delete root;
+                return temp;
+            }
+            else if(root -> right == NULL){
+                TreeNode* temp = root -> left;
+                delete root;
+                return temp;
+            }
+
+            // 2 child case
+            else if(root -> left != NULL && root -> right != NULL){
+                TreeNode* rightMin = root -> right;
+                while(rightMin -> left != NULL){
+                    rightMin = rightMin -> left;
+                }
+                rightMin -> left = root -> left ;
+                TreeNode* temp = root;
+                root = root -> right;
+                delete temp;
+                return root; 
+            }             
+        }        
+        return root;
+    }
+};
