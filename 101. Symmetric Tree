@@ -1,0 +1,34 @@
+/*
+I have to check if left and right sides of a tree are mirror image of each other or not. So treat left as tree1 and right side as tree.
+Now compare both trees like how we check equal trees. twist is this much only left will be equal to right so for this if you traverse tree1 in LNR then traverse tree2 in RNL.
+*/
+
+class Solution {
+public:
+    bool check(TreeNode* p, TreeNode* q){
+        if(p == NULL && q != NULL){
+            return false;
+        }
+        else if(q == NULL && p != NULL){
+            return false;
+        }
+        else if(p == NULL && q == NULL){
+            return true;
+        }
+
+        bool lefty = check(p -> left, q -> right);
+        bool righty = check(p -> right, q -> left);
+
+        if(p -> val == q -> val && lefty == true && righty == true){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    bool isSymmetric(TreeNode* root) {
+        return check(root -> left, root -> right);
+    }
+};
+

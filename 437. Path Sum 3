@@ -1,0 +1,29 @@
+/*
+Break this question in parts. Just think of paths when all paths starts from root. and traverse whole tree by targetSum - root -> val.
+ wherever the targetSum becomes equal to root -> val means we found a path so do ans++. Now call this recurssive function recurssively
+ so we will treat every node as root node and will find paths. (preorder)
+ */
+
+ class Solution {
+public:
+    int n = 0;
+    void solve(TreeNode* &root, long long targetSum){
+        if(root == NULL){
+            return ;
+        }
+        if(targetSum == root -> val){
+            n++;
+        }
+        solve(root -> left, targetSum - root -> val);
+        solve(root -> right, targetSum - root -> val);
+    }
+
+    int pathSum(TreeNode* root, int targetSum) {
+        if(root != NULL){
+            solve(root, targetSum);
+            pathSum(root -> left, targetSum);
+            pathSum(root -> right, targetSum);
+        }
+        return n;
+    }
+};

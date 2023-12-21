@@ -1,0 +1,26 @@
+// Just compare every node of two trees i solved it by preorder traversal. If left m sare equal h and right m bhi and root bhi to return true else false.
+
+class Solution {
+public:
+   bool isSameTree(TreeNode* p, TreeNode* q) {
+        if(p == NULL && q != NULL){
+            return false;
+        }
+        else if(q == NULL && p != NULL){
+            return false;
+        }
+        else if(p == NULL && q == NULL){
+            return true;
+        }
+
+        bool lefty = isSameTree(p -> left, q -> left);
+        bool righty = isSameTree(p -> right, q -> right);
+
+        if(p -> val == q -> val && lefty == true && righty == true){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+};
