@@ -1,0 +1,46 @@
+/*
+think recurssively. recursive function k andr for loop use hoga. do parts m break krle har baar string ko first and second . 
+ab first part ko check kar loop m ki palindrome h ya nhi? if yes then use push krde ans vector m and second part pe recursive call marde.
+ab pop back krde backtracking k time ans vector m kyuki saaf bhi krna h ans vector next partitions store krne k liye. base case hoga jab second part empty hojae string kaa.
+*/
+
+class Solution {
+public:
+    bool checkPalindrome(string s){
+        int start = 0;
+        int end = s.length() - 1;
+        while( start < end ){
+            if(s[start] != s[end]){
+                return false;
+            }
+            start++;
+            end--;
+        }
+        return true;
+    }
+
+    void findAns(string s, vector<vector<string>> &res ,vector<string> &ans){
+
+        if(s.size() < 1){
+            res.push_back(ans);
+            return ;
+        }     
+
+        for(int i = 1; i<=s.length(); i++){
+            string x = s.substr(0,i);
+            if(checkPalindrome(x)){
+                ans.push_back(x);
+                string y = s.substr(i, s.size()-i);
+                findAns(y, res, ans);
+                ans.pop_back();
+            }
+        }
+    }
+
+    vector<vector<string>> partition(string s) {
+        vector<vector<string>> res;
+        vector<string> ans;
+        findAns(s, res, ans);
+        return res;
+    }
+};
