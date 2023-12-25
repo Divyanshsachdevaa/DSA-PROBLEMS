@@ -1,0 +1,56 @@
+
+class info{
+    public:
+    int data;
+    int rowIndex;
+    int colIndex;
+    info(int a, int b, int c){
+        this -> data = a;
+        this -> rowIndex = b;
+        this -> colIndex = c;
+    }
+};
+
+class compare{
+    public:
+    bool operator()(info* a, info* b){
+        return a -> data > b -> data;
+    }
+};
+
+class Solution
+{
+    public:
+    //Function to merge k sorted arrays.
+    vector<int> mergeKArrays(vector<vector<int>> arr, int K)
+    {
+        //code here 
+        priority_queue<info*, vector<info*>, compare> pq;
+        vector<int> ans;
+        
+        for(int i = 0; i<arr.size(); i++){
+            int element = arr[i][0];
+            int row = i;
+            int col = 0;
+            info* curr = new info(element, row, col);
+            pq.push(curr);
+        }
+        
+        while(!pq.empty()){
+            info* topNode = pq.top();
+            pq.pop();
+            int topData = topNode -> data;
+            int topRow = topNode -> rowIndex;
+            int topCol = topNode -> colIndex;
+            
+            ans.push_back(topData);
+            
+            if(topCol + 1 < arr[topRow].size()){
+                int newElement = arr[topRow][topCol + 1];
+                info* newInfo = new info(newElement, topRow, topCol + 1);
+                pq.push(newInfo);
+            }
+        }
+        return ans;
+    }
+};

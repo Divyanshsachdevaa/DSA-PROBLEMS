@@ -1,0 +1,85 @@
+class info{
+    public:
+    int data, rowIndex, colIndex;
+    info(int a, int b, int c){
+        this -> data = a;
+        this -> rowIndex = b;
+        this -> colIndex = c;
+    }
+};
+
+// apna comparator isliye create kiya kyuki hamne heap info* data type ki bnai h
+class compare{
+    public:
+    bool operator()(info* a, info* b){
+        return a -> data > b -> data;
+    }
+};
+
+class Solution {
+public:
+    vector<int> smallestRange(vector<vector<int>>& nums) {
+
+// mujhe min heap k andr data store krna h. data bhi kya ...
+// currElement, uska rowNumber, colNumber.
+// isliye custom data type create krte h info naam se.
+
+        priority_queue<info* , vector<info*>, compare> pq;
+        int mini = INT_MAX;
+        int maxi = INT_MIN;
+        for(int i = 0; i< nums.size(); i++){
+            int element = nums[i][0];
+            int row = i;
+            int col = 0;
+            info* temp = new info(element, row, col);
+            pq.push(temp);
+            mini = min(mini,element);
+            maxi = max(maxi,element);
+        }
+
+        int finalMaxi = maxi;
+        int finalMini = mini;
+
+        // 3 step hote h heap wale questions k
+        // find top
+        // pop top
+        // insertion
+        while(!pq.empty()){
+            // step 1
+            info* topNode = pq.top();
+            // step 2
+            pq.pop();
+            int topData = topNode -> data;
+            int topRow = topNode -> rowIndex;
+            int topCol = topNode -> colIndex;
+
+            mini = topData;
+            // maxi to same rahega
+            
+            if((maxi - mini) < (finalMaxi - finalMini)){
+                finalMini = mini;
+                finalMaxi = maxi;
+            }
+
+            // step 3
+            if(topCol + 1 < nums[topRow].size()){
+                int newElement = nums[topRow][topCol + 1];
+                // yaha galti krta hu m is step m maxi ko update krna yaad rakho
+                maxi = max(maxi,newElement);
+                info* newInfo = new info(newElement, topRow, topCol + 1);
+                pq.push(newInfo);
+            }
+            // important case
+            else{
+                //aage koi element nahi h push krne ko then break
+                break;
+            }
+        }
+
+        vector<int> ans;
+        ans.push_back(finalMini);
+        ans.push_back(finalMaxi);
+
+        return ans;
+    }
+};
