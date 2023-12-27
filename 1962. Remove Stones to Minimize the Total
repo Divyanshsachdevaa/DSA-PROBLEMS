@@ -1,0 +1,31 @@
+/*
+minimise krna h total mtlb jo maximum hoga uska half krenge to jyada kam hoga
+or array m maximum element minimum time m kese find krte h max heap...to maximum find krte rho & update krte rho
+*/
+class Solution {
+public:
+    int minStoneSum(vector<int>& piles, int k) {
+        // lets create a max heap to find max element in min time
+        priority_queue<int> pq;
+
+        for(int i = 0; i<piles.size(); i++){
+            pq.push(piles[i]);
+        }
+
+        while(k--){
+            int maxi = pq.top();
+            pq.pop();
+            maxi = maxi - (maxi / 2);
+            pq.push(maxi);
+        }
+        
+        int sum = 0;
+        while(!pq.empty())
+        {
+            int top = pq.top();
+            pq.pop();
+            sum += top;
+        }
+        return sum;
+    }
+};
