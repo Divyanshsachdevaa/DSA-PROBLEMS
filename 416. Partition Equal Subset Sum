@@ -1,0 +1,107 @@
+class Solution {
+public:
+    bool solve(vector<int>& nums, int target, int index){
+        // base case
+        if(target == 0){
+            return true;
+        }
+        if(index >= nums.size()){
+            return false;
+        }
+        if(target < 0){
+            return false;
+        }
+
+        int include = solve(nums, target - nums[index], index+1);
+        int exclude = solve(nums, target, index+1);
+
+        return include || exclude;
+    }
+
+    int solveByMem(vector<int>& nums, int target, int index, vector<vector<int>> &dp){
+        if(target == 0){
+            return true;
+        }
+        if(index >= nums.size()){
+            return false;
+        }
+        if(target < 0){
+            return false;
+        }
+
+        if(dp[index][target] != -1){
+            return dp[index][target];
+        }
+
+        bool include = solveByMem(nums, target - nums[index], index+1, dp);
+        bool exclude = solveByMem(nums, target, index+1, dp);
+
+        dp[index][target] = (include || exclude);
+
+        return dp[index][target];
+    }
+
+    int solveByTab(vector<int>& nums, int target){
+        int n = nums.size();
+        vector<vector<int>> dp(n+2, vector<int> (target+1, 0));
+        // BASE CASE ANALYSE KR 
+        // JAB TARGET 0 H TAB 1 RETURN KRNA H AND TARGET MTLB COLUMN H
+        // TO HAR ROW K TARGET = 0 PE 1 RAKH DO
+        for(int row=0; row <= n ; row++){
+            dp[row][0] = 1;
+        }
+
+        for(int index = n-1; index >=0; index--){
+            for(int t = 0; t <= target; t++){
+                // YAHA PE GLTI HUI THI INCLUDE CHECK KR KAHI KOI UNBOUNDED INDEX TO ACCESS NHI HO RHA ?? 
+                bool include = 0;
+                if(t - nums[index] >= 0){
+                    include = dp[index+1] [t-nums[index]];
+                }
+                bool exclude = dp[index+1] [t];
+                dp[index][t] = (include || exclude);
+            }
+        }
+        return dp[0][target];
+    }
+
+    int solveBySO(vector<int>& nums, int target){
+        int n = nums.size();
+        // ARRAY ROW VISE BNANE H MTLB DP M JITNE NO. OF COLUMNS THE
+        vector<int> currRow(target+1,0);
+        vector<int> nextRow(target+1,0);
+        
+        // TAB M MENE BOLA KI HAR ROW M JAB TARGET 0 HO TO 1 SET KRDO
+        // YAHA PAR HAR ROW TO H NHI SIRF 2 ROWS H
+        currRow[0]=1;
+        nextRow[0]=1;
+
+        for(int index = n-1; index >=0; index--){
+            for(int t = 0; t <= target; t++){
+                bool include = 0;
+                if(t - nums[index] >= 0){
+                    include = nextRow[t-nums[index]];
+                }
+                bool exclude = nextRow[t];
+                currRow[t] = (include || exclude);
+            }
+        }
+        return currRow[target];
+    }
+
+    bool canPartition(vector<int>& nums) {
+        int totalSum = 0;
+        int n = nums.size();
+        for(auto i: nums){
+            totalSum += i; 
+        }
+
+        if(totalSum & 1){
+            return false;
+        }
+        else{
+            vector<vector<int>> dp(n+1, vector<int> ((totalSum/ 2) +1, -1));
+            return solveByTab(nums, totalSum/2);
+        }
+    }
+};
