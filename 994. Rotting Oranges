@@ -1,0 +1,67 @@
+class Solution {
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+
+        // BFS KI FEEL KAHA SE AI?
+        // DHYAN SE OBSERVE KR JITNE BHI 2 HAI SIRF USKE NEIGHBOURS KO HI CHANGE KRNA H
+
+        queue<pair<pair<int,int>, int>> q; // {{R,C},time}
+        int ans=0;
+        int n = grid.size();
+        int m = grid[0].size();
+        int vis[n][m];
+        int originalFreshCount = 0;
+        for(int i = 0; i<n; i++){
+            for(int j = 0; j<m; j++){
+                if(grid[i][j] == 2){
+                    // queue m cordinates push krdo jaha bhi 2 h grid m
+                    q.push({{i,j},0});
+
+                    // visited mark krdo
+                    vis[i][j] = 2;
+                }
+                else{
+                    vis[i][j] = 0;
+                }
+
+                if(grid[i][j] == 1){
+                    // originally fresh kitne h count krlo
+                    originalFreshCount++;
+                }
+            }
+        }
+
+        int row[] = {0, 0, -1, +1};
+        int col[] = {+1, -1, 0, 0};
+
+        int freshConverted = 0;
+
+        //BFS ALGO:-
+        while(!q.empty()){
+            auto front = q.front();
+            q.pop();
+
+            int r = front.first.first;
+            int c = front.first.second;
+            int t = front.second;
+
+            ans = max(ans,t);
+
+            for(int i = 0; i<4; i++){
+                int nextRow = r + row[i];
+                int nextCol = c + col[i];
+                if(nextRow >= 0 && nextRow < n && nextCol >= 0 && nextCol < m && vis[nextRow][nextCol] == 0 && grid[nextRow][nextCol] == 1){
+                    q.push({{nextRow,nextCol}, t+1});    
+                    vis[nextRow][nextCol] = 2;    
+                    freshConverted++;            
+                }
+            }
+        }
+
+        if(originalFreshCount != freshConverted){
+            return -1;
+        }
+
+        return ans;
+    }
+};
