@@ -1,0 +1,40 @@
+class Solution
+{
+    public:
+    //Function to return the minimum cost of connecting the ropes.
+    long long minCost(long long arr[], long long n) {
+        
+        // Greedy se soch. min element nikal use min cost bnegi
+        priority_queue<long long, vector<long long>, greater<long long>> minHeap;
+        long long ans = 0;
+        
+        for(long long i = 0; i<n; i++){
+            minHeap.push(arr[i]);
+        }
+        
+        while(!minHeap.empty()){
+            
+            // step1 -> top mtlb minimum element nikalo and pop krdo
+            long long a = minHeap.top();
+            minHeap.pop();
+            
+            // check krlo kahi minHeap empty to nhi hogya kykui sbse last case m 1 hi element reh jayega heap m
+            if(!minHeap.empty()){
+                // step2 -> second minimum element nikalo and pop krdo use bhi
+                long long b = minHeap.top();
+                minHeap.pop();
+                
+                // step3 -> add first and second element and add them in cost and push back res in heap
+                long long res = a + b;
+                ans += res;
+                minHeap.push(res);
+            }    
+            else{
+                break;
+            }
+            
+        }
+        return ans;
+        
+    }
+};

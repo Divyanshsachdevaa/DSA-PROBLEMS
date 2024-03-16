@@ -1,0 +1,60 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        
+        if(s.length() < t.length()){
+            return "";
+        }
+
+        int start = 0;
+        int end = 0;
+        int ansLength = INT_MAX;
+        int ansIndex = -1; // starting index of ans String
+
+        // purpose of count is to keep a check on how many valid chars are processed
+        int count = 0;
+
+        unordered_map<char, int> tMap;
+        unordered_map<char, int> sMap;
+
+        // store frequency of chars in map
+        for(char i : t){
+            tMap[i]++;
+        }
+
+        while(end < s.length()){
+            char ch = s[end];
+            sMap[ch]++;
+
+            if(sMap[ch] <= tMap[ch]){
+                // valid chars
+                count++;
+            }
+
+            if(count == t.length()){
+                // start minimizing
+                // means we found that string in which our pattern exists
+                // agr string mil gyi extra chars bhi tbhi remove kr skta hu mai ese thodi krunga
+                while(sMap[s[start]] > tMap[s[start]] || tMap[s[start]] == 0){
+                    // if char is extra ya fir char exist hi nhi krta is case m bahr nikalo
+                    if(sMap[s[start]] > tMap[s[start]]){
+                        sMap[s[start]]--;
+                    }
+                    start++;
+                }
+
+                int windowLength = end - start + 1;
+                if(windowLength < ansLength){
+                    ansLength = windowLength;
+                    ansIndex = start;
+                }
+            }
+            end++;
+        }
+        if(ansIndex == -1){
+            return "";
+        }
+        return s.substr(ansIndex, ansLength);
+
+    }
+};
