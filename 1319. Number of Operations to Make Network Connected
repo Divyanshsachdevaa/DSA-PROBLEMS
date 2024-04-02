@@ -1,0 +1,36 @@
+class Solution {
+public:
+    void dfs(unordered_map<int, bool>& vis, unordered_map<int, list<int>>& adjList, int src){
+        vis[src] = true;
+        for(auto nbr: adjList[src]){
+            if(!vis[nbr]){
+                dfs(vis, adjList, nbr);
+            }
+        } 
+    }
+
+    int makeConnected(int n, vector<vector<int>>& connections) {
+        unordered_map<int, bool> vis;
+        unordered_map<int, list<int>> adjList;
+        int edges = 0;
+        for(auto vec: connections){
+            int src = vec[0];
+            int nbr = vec[1];
+            adjList[src].push_back(nbr);
+            adjList[nbr].push_back(src);
+            edges++;
+        }
+        int ans = 0;
+        // if no. of total edges not equal to no. of nodes that means not possible return -1
+        if(edges < n-1){
+            return -1;
+        }
+        for(int i = 0; i<n; i++){
+            if(!vis[i]){
+                dfs(vis, adjList, i);
+                ans++;
+            }
+        }
+        return ans - 1;
+    }
+};

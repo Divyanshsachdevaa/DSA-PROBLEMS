@@ -1,0 +1,78 @@
+class Solution {
+public:
+    int dijkastraAlgo(int src, int n, unordered_map<int, list<pair<int, int>>> &adjList, int& threshold){
+        vector<int> dist(n+1, INT_MAX);
+        set<pair<int, int>> st; // {dist, node} as we want set to sort on the basis of distance
+        st.insert({0, src});
+        dist[src] = 0;
+
+        int count = 0;
+
+        while(!st.empty()){
+            auto topElement = st.begin();
+            pair<int, int> top = *topElement;
+            int srcDist = top.first;
+            int srcNode = top.second;
+            st.erase(st.begin());
+
+            for(auto nbr: adjList[srcNode]){
+                int nbrDist = nbr.second;
+                int nbrNode = nbr.first;
+
+                if(srcDist + nbrDist < dist[nbrNode]){
+
+                    auto prevNode = st.find({dist[nbrNode], nbrNode});
+                    if(prevNode != st.end()){
+                        st.erase(prevNode);
+                    }
+                    dist[nbrNode] = srcDist + nbrDist;
+                    st.insert({dist[nbrNode] , nbrNode});
+                }
+            }
+        }
+
+        for(int i = 0; i<dist.size(); i++){
+            if( i == src){
+                continue;
+            }
+            if(dist[i] <= threshold){
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+
+
+    int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
+        unordered_map<int, list<pair<int, int>>> adjList;
+
+        // step1 -> make adjacency list
+        for(auto vec: edges){
+            int src = vec[0];
+            int nbr = vec[1];
+            int wt = vec[2];
+            adjList[src].push_back({nbr, wt});
+            adjList[nbr].push_back({src, wt});
+        }
+
+        // step2 -> call for dijkstra
+        // hame nodes pr kam se kam distance m pochna hai isliye dijkastra se shortest path milgya hame
+        // ab shortest path wale vector pe traverse krke apna count calculate kr lunga mai
+        
+        int minCount = INT_MAX;
+        int ans;
+        for(int i = 0; i<n; i++){
+            int count = dijkastraAlgo(i, n-1, adjList, distanceThreshold);
+            cout << i << " -> " <<  count << endl;
+            // step3 -> return node with minimum count
+            if(count <= minCount){
+                minCount = count;
+                ans = i;
+            }
+        }
+
+        return ans;
+    }
+};
