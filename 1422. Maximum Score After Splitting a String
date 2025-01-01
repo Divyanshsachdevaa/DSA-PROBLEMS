@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int maxScore(string s) {
+        int n = s.length();
+        int maxScore = 0;
+        int totalZeros = 0;
+        int currZeros = 0;
+
+        for(int i = 0; i<n; i++){
+            if(s[i] == '0'){
+                totalZeros++;
+            }
+        }
+
+        for(int i = 0; i<n-1; i++){
+            if(s[i] == '0'){
+                currZeros++;
+            }
+            int currScore = currZeros + (n - (i+1) - (totalZeros - currZeros));
+            maxScore = max(maxScore, currScore);
+        }
+
+        return maxScore;
+        // TC -> O(n)
+        // SC -> O(1)
+    }
+};
