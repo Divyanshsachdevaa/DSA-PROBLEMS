@@ -1,0 +1,36 @@
+class Solution {
+public:
+    string shiftingLetters(string s, vector<vector<int>>& shifts) {
+        // Diff array technique
+        int n = s.size();
+        int m = shifts.size(); // no. of shifts
+        vector<int> net(n, 0);
+        
+        // step1 -> add curr number to start index and sutract that same number at ending index + 1;
+        for(int i = 0; i<m; i++){
+            int si = shifts[i][0], ei = shifts[i][1], d = shifts[i][2];
+
+            net[si] += (d == 1 ? 1 : -1);
+            if(ei != n-1){
+                net[ei+1] -= (d == 1 ? 1 : -1);
+            }
+        }
+
+        // step2 -> take cummulative sum
+        for(int i = 0; i<n; i++){
+            if(i == 0){
+                char newChar = ((s[i] - 'a' + ((net[i] % 26) + 26) % 26 ) % 26) + 'a';
+                s[i] = newChar;
+                continue;
+            }
+            
+            net[i] += net[i-1];
+            char newChar = ((s[i] - 'a' + ((net[i] % 26) + 26) % 26 ) % 26) + 'a';
+            s[i] = newChar;
+        }
+
+        return s;
+        // TC -> O(n)
+        // SC -> O(n)
+    }
+};

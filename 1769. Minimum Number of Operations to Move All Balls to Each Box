@@ -1,0 +1,34 @@
+class Solution {
+public:
+    vector<int> minOperations(string boxes) {
+        // Intution -> sari balls ko immediate left bag par le ao and usme no. of balls add krdo = leftOperations. Do same thing for right
+
+        int n = boxes.size();
+        vector<int> res(n);
+        vector<int> rightOp(n);
+        int ballsInRight = 0, ballsInLeft = 0;
+        int leftOp = 0;
+
+        for(int i = n-1; i >= 0; i--){
+            if(i == n-1){
+                rightOp[0] = 0;
+            }
+            else{
+                rightOp[i] = rightOp[i+1] + ballsInRight;
+            }
+            ballsInRight += boxes[i] == '1' ? 1 : 0;
+        }
+
+        for(int i = 0; i<n; i++){
+            int leftAns = leftOp + ballsInLeft;
+            res[i] = leftAns + rightOp[i];
+            ballsInLeft += boxes[i] == '1' ? 1 : 0;
+            leftOp = leftAns;
+        }
+
+        return res;
+        
+        // TC -> O(n)
+        // SC -> O(n)
+    }
+};
