@@ -1,0 +1,38 @@
+class Solution {
+public:
+    vector<string> wordSubsets(vector<string>& words1, vector<string>& words2) {
+        vector<int> maxFreq(26, 0);
+        vector<string> ans;
+        int m = words2.size();
+        int n = words1.size();
+
+        for(string s: words2){
+            vector<int> freq2(26, 0);
+            for(char c: s){
+                freq2[c-'a']++;
+                maxFreq[c-'a'] = max(maxFreq[c-'a'], freq2[c-'a']);
+            }
+        }
+
+        for(string s: words1){
+            vector<int> freq1(26, 0);
+            bool isUniversal = true;
+            for(char c: s){
+                freq1[c-'a']++;
+            }
+            for(int i = 0; i<26; i++){
+                if(freq1[i] < maxFreq[i]){
+                    isUniversal = false;
+                    break;
+                }
+            }
+            if(isUniversal){
+                ans.push_back(s);
+            }
+        }
+
+        return ans;
+        // TC -> O(n*26)
+        // SC -> O(26) ~ O(1)
+    }
+};
